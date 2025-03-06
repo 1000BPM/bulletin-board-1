@@ -32,13 +32,15 @@ class BoardsController < ApplicationController
   def update
     the_id = params.fetch("path_id")
     the_board = Board.where({ :id => the_id }).at(0)
-
+    
     the_board.name = params.fetch("query_name")
 
     if the_board.valid?
       the_board.save
+ 
       redirect_to("/boards/#{the_board.id}", { :notice => "Board updated successfully."} )
     else
+  
       redirect_to("/boards/#{the_board.id}", { :alert => the_board.errors.full_messages.to_sentence })
     end
   end
