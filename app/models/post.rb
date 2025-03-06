@@ -11,4 +11,5 @@
 #  board_id   :integer
 #
 class Post < ApplicationRecord
+  validates(:title, presence: true)
 end

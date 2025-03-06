@@ -1,10 +1,12 @@
+<% require 'time' %>
+
 <div>
   <div>
     <h1>
-      Board #<%= @the_board.id %> details
+      <%= @the_board.name %>
     </h1>
 
-    <div>
+<!--    <div>
       <div>
         <a href="/boards">
           Go back
@@ -12,7 +14,7 @@
       </div>
 
       <div>
-        <a href="/delete_board/<%= @the_board.id %>">
+        <a href="/delete_board/<%#= @the_board.id %>">
           Delete board
         </a>
       </div>
@@ -23,43 +25,59 @@
         Name
       </dt>
       <dd>
-        <%= @the_board.name %>
-      </dd>
+        <%#= @the_board.name %>-->
+<!--      </dd>
 
       <dt>
         Created at
       </dt>
       <dd>
-        <%= time_ago_in_words(@the_board.created_at) %> ago
-      </dd>
+        <%#= time_ago_in_words(@the_board.created_at) %> ago-->
+<!--      </dd>
 
       <dt>
         Updated at
       </dt>
       <dd>
-        <%= time_ago_in_words(@the_board.updated_at) %> ago
-      </dd>
+        <%#= time_ago_in_words(@the_board.updated_at) %> ago-->
+<!--      </dd>
     </dl>
   </div>
 </div>
-
+-->
 <hr>
 
 
 <div>
   <div>
     <h2>
-      Edit board
+      Add a new post
     </h2>
 
     <form action="/modify_board/<%= @the_board.id %>"  method="post" >
       <div>
-        <label for="name_box">
-          Name
+        <label for="title_box">
+          Title
         </label>
 
-        <input type="text" id="name_box" name="query_name" value="<%= @the_board.name %>">
+        <input type="text" id="title_box" name="query_title">
       </div>
+      <div>
+        <label for="body_box">
+          Body
+        </label>
+
+        <input type="text" id="body_box" name="query_body" rows="3">
+      </div>
+      <div>
+        <label for="exp_date_box">
+          Expires on
+        </label>
+
+        <input type="date" id="exp_date_box" name="query_exp">
+      </div>
+
+      <input type="hidden" id="board_id_box" name="query_board_id" value="<% @the_board.id%>">
 
       <button>
         Update board
@@ -69,3 +87,34 @@
 </div>
 
 <hr>
+
+<% current_time = Time.now() %>
+<% active_posts = @the_board.posts_all.where("expires_on > ?", current_time)%>
+<%# active_posts = @the_board.posts_all.order(:expires_on) %>
+<h2>Active posts</h2>
+
+<table border="1">
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Posted on</th>
+    <th>Expires on</th>
+  </tr>
+
+<% active_posts.each do |a_post|%>
+  <tr>
+    <td>
+    <%= a_post.title%>
+    </td>
+    <td>
+    <%= a_post.body%>
+    </td>
+    <td>
+    <%= a_post.created_at.strftime("%b %d, %Y")%>
+    </td>
+    <td>
+    <%= a_post.expires_on.strftime("%b %d, %Y")%>
+    </td>
+  </tr>
+
+  <%end%>
