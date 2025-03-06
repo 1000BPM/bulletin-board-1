@@ -33,12 +33,12 @@
 <hr>
 
 <% @list_of_boards.each do |a_board| %>
-  <tr>
-    <td>
-      <a_href = "/boards/<%= a_board.name %>"> 
+  <ul>
+    
+      <a href = "/boards/<%= a_board.id %>"> 
       <%=a_board.name%>
       </a>
     </td>
 
-  </tr>
+  </ul>
 <%end%>
